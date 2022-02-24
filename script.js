@@ -5,24 +5,25 @@ const todoCompleted = document.querySelector('.todo-completed');
 
 let toDoData = [];
 
-localStorage.setItem('toDoDataKey', JSON.stringify(toDoData));
-
-const todoLoad = function() {
-  
-  const result = JSON.parse(localStorage.getItem('toDoDataKey'));
-
-  if (result) {
-    return result;
-  }  
-};
-
-
-
-todoLoad();
-
- 
+console.log(toDoData);
 
 const render = function() {
+
+  localStorage.setItem('toDoDataKey', JSON.stringify(toDoData));
+
+  const todoLoad = function() {
+    
+    let result = JSON.parse(localStorage.getItem('toDoDataKey'));
+
+    if (!result) {
+      result = [];
+    } else {
+      return result;
+    } 
+
+  };
+  
+  toDoData = todoLoad();
 
   todoList.innerHTML = '';
   todoCompleted.innerHTML = '';
@@ -73,3 +74,5 @@ todoControl.addEventListener('submit', function(event) {
     render();
   }
 });
+
+render();
