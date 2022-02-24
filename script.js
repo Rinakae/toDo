@@ -12,7 +12,7 @@ const todoLoad = function() {
   const result = JSON.parse(localStorage.getItem('toDoDataKey'));
 
   if (result) {
-    return toDoData;
+    return result;
   }  
 };
 
