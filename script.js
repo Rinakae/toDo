@@ -3,41 +3,36 @@ const headerInput = document.querySelector('.header-input');
 const todoList = document.querySelector('.todo-list');
 const todoCompleted = document.querySelector('.todo-completed');
 
-let toDoData = [];
 
-console.log(toDoData);
+const todoLoad = function() {
+
+  let result = JSON.parse(localStorage.getItem('toDoData'));
+
+  if (!result) {
+  result = [];
+  }
+  return result;
+
+};
+
+let toDoData = todoLoad();
 
 const render = function() {
-
-  localStorage.setItem('toDoDataKey', JSON.stringify(toDoData));
-
-  const todoLoad = function() {
-    
-    let result = JSON.parse(localStorage.getItem('toDoDataKey'));
-
-    if (!result) {
-      result = [];
-    } else {
-      return result;
-    } 
-
-  };
-  
-  toDoData = todoLoad();
+  localStorage.setItem('toDoData', JSON.stringify(toDoData));
 
   todoList.innerHTML = '';
   todoCompleted.innerHTML = '';
-  
+
   toDoData.forEach(function (item, index) {
-  const li = document.createElement('li');
+    const li = document.createElement('li');
 
-  li.classList.add('todo-item');
+    li.classList.add('todo-item');
 
-  li.innerHTML = '<span class = "text-todo">' + item.text + '</span>' +
-    '<div class="todo-buttons">' +
-    '<button class="todo-remove"></button>' +
-    '<button class="todo-complete"></button>' +
-    '</div>';
+    li.innerHTML = '<span class = "text-todo">' + item.text + '</span>' +
+      '<div class="todo-buttons">' +
+      '<button class="todo-remove"></button>' +
+      '<button class="todo-complete"></button>' +
+      '</div>';
 
     if (item.completed) {
       todoCompleted.append(li);
@@ -46,7 +41,7 @@ const render = function() {
     }
 
     li.querySelector('.todo-remove').addEventListener('click', function() {
-      toDoData.splice(index);
+      toDoData.splice(index, 1);
       render();
     });
 
@@ -54,7 +49,6 @@ const render = function() {
       item.completed = !item.completed;
       render();
     });
-    
 
   });
 
@@ -73,6 +67,7 @@ todoControl.addEventListener('submit', function(event) {
     headerInput.value = '';
     render();
   }
+  
 });
 
 render();
